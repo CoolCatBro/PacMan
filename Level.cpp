@@ -1,67 +1,35 @@
 #include "Level.hpp"
-#include<cassert>
-
+		
+		//Base Layer for every object in game
 //Level---------------------------------------------------------
 
-Level::Level() : Layer("level")
+Level::Level(Scene* scene) : Layer(scene,"level"){}
+
+void Level::load()
 {
-	stage = new Stage;
-	Level::addNode(stage);
-	loadStage("Stages\\stage1.txt");
+   for(int i=0;i<Nodes.size();i++)
+   {
+	   Nodes[i]->load();
+   }
+}
+        //set mazes
+//Maze----------------------------------------------------------
+
+Maze::Maze(Scene* scene, int height,int width,int nmazes)
+	  :Sprite(scene,"maze",height,width,0,0,nmazes),currMaze(0) {
 }
 
-void Level::loadStage(string filename)
-{
-	ifstream file;
-	file.open(filename);
-	assert(file);
-	for (int i = 0; i < GAME_HEIGHT; i++)
-	{
-		getline(file, stage->stage[i]);
-	}
-	file.close();
+void Maze::nextMaze() {
+	if (currMaze < nframe-1)
+		currMaze++;
 }
 
-//Stage---------------------------------------------------------
-
-Stage::Stage() : Node("stage"){}
-
-Stage::~Stage()
-{
-	delete[] stage;
+void Maze::prevMaze() {
+	if (currMaze > 0)
+		currMaze--;
 }
 
-void Stage::render(Scene * scene)
-{
-	for (int i = 0; i <GAME_HEIGHT; i++)
-	{
-		scene->gameRenderer.mvprintW(0,i,stage[i]);
-	}
-}
-
-//Food--------------------------------------------------------------
-
-Food::Food() :Node("food")
-{
-	x = 0;
-	y = 0;
-}
-
-void Food::addFood(Scene* scene)
-{
-	x = rand() % GAME_WIDTH;
-	y = rand() % GAME_HEIGHT;
-	while ((scene->gameRenderer.moveXY(x, y) && scene->gameRenderer.readCh() != ' '))
-	{
-		x = rand() % GAME_WIDTH;
-		y = rand() % GAME_HEIGHT;
-	}
-}
-
-void Food::render(Scene* scene)
-{
-	    if (x == 0 && y == 0)
-		addFood(scene);
-
-		scene->gameRenderer.mvprintCh(x, y, FOOD_CHAR);
+void Maze::render(double dt) {
+	for (int i = 0; i < height; i++)
+		scene->game.mvprintW(x, i + y, frames[currMaze][i]);
 }

@@ -2,14 +2,16 @@
 
 Engine::Engine()
 {
+	//winAPi
 	console = GetStdHandle(STD_OUTPUT_HANDLE);
 	GetConsoleScreenBufferInfo(console, &csbinfo);
 
+	//Calc screen_width & screen_height
 	screen_width =  csbinfo.srWindow.Right - csbinfo.srWindow.Left;
 	screen_height = csbinfo.srWindow.Bottom - csbinfo.srWindow.Top;
 
+	//Allocate screen array
 	bsize = screen_width * screen_height;
-
 	buffer = new CHAR_INFO[bsize];
 
 	for (int i = 0; i < bsize; i++)
@@ -21,6 +23,7 @@ Engine::Engine()
 
 Engine::Engine(int screen_width,int screen_height)
 {
+	//winApi
 	console = GetStdHandle(STD_OUTPUT_HANDLE);
 	
 	_COORD coord;
@@ -40,8 +43,8 @@ Engine::Engine(int screen_width,int screen_height)
 	this->screen_width = screen_width;
 	this->screen_height = screen_height;
 
+	//Allocate screen array
 	bsize = screen_width * screen_height;
-
 	buffer = new CHAR_INFO[bsize];
 
 	for (int i = 0; i < bsize; i++)
@@ -49,11 +52,6 @@ Engine::Engine(int screen_width,int screen_height)
 		buffer[i].Char.AsciiChar = ' ';
 		buffer[i].Attributes = csbinfo.wAttributes;
 	}
-}
-
-Engine::~Engine()
-{
-	delete[] buffer;
 }
 
 int Engine::moveXY(int x, int y)
@@ -101,7 +99,6 @@ char Engine::readCh()
 
 void Engine::refresh()
 {
-	DWORD size, n;
 	COORD cstart = { 0,0 };
 	COORD csize = { (SHORT)screen_width , (SHORT)screen_height };
 	SMALL_RECT rect = { cstart.X,cstart.Y,csize.X,csize.Y };

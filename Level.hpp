@@ -1,48 +1,32 @@
+/*Create a layer level to act as a base layer for every sprite in stage*/
+
 #pragma once
 
 #include "SceneGraph.hpp"
 #include "Globals.hpp"
-
-#include <fstream>
-#include <vector>
-
-using std::ifstream;
-using std::vector;
+#include "Sprite.hpp"
 
 class Level;
-class Stage;
-class Food;
+class Maze;
 
 class Level : public Layer
 {
-	Stage *stage;
-
 public:
 
-	Level();
-	void loadStage(string filename);
-
+	Level(Scene*);
+	void load();
 };
 
-class Stage : public Node
-{
-public:
-   
-	string *stage = new string[GAME_HEIGHT];
 
-	Stage();
-	~Stage();
-	void render(Scene* scene);
-};
-
-class Food :public Node
+class Maze : public Sprite
 {
 public:
 
-	int x, y;
+	int currMaze;
 
-	Food();
-	void addFood(Scene *scene);
-	void render(Scene *scene);
+	Maze(Scene* scene,int height,int width,int nmazes);
+
+	void nextMaze();
+	void prevMaze();
+	void render(double dt);
 };
-

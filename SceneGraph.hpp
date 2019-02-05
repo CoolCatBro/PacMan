@@ -14,47 +14,55 @@ class Node;
 
 class Scene
 {
+protected:
+
 	vector<Layer*> Layers;
 
 public:
 
-	Engine gameRenderer;
+	Engine game;
 
 	Scene();
 	Scene(int width,int height);
-	~Scene();
 
-	void addLayer(Layer* layer);
-	void removeLayer(string id);
-	Layer* getLayer(string id);
-	void render();
+	void	addLayer(Layer* layer);
+	void	removeLayer(string id);
+	Layer*	getLayer(string id);
+	void	render(double);
 };
 
 class Layer
 {
+protected:
+
+	Scene* scene;
 	vector<Node*> Nodes;
 
 public:
 
 	string id;
 
-	Layer(string id);
-	~Layer();
+	Layer(Scene* scene,string id);
 
-	void addNode(Node* node);
-	void removeNode(string id);
-	Node* getNode(string id);
-	void render(Scene*);
+	void   addNode(Node* node);
+	void   removeNode(string id);
+	Node*  getNode(string id);
+	void   render(double);
 };
 
 class Node
 {
+protected:
+
+	Scene* scene;
+
 public:
 
 	string id;
 
-	Node(string id);
+	Node(Scene* scene,string id);
 	virtual ~Node();
 
-	virtual void render(Scene*) = 0;
+	virtual void load() = 0;
+	virtual void render(double dt) = 0;
 };

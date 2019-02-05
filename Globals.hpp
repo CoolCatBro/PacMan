@@ -2,9 +2,10 @@
 #define _GLOBALS_
 
 
-//MAINS
+//META
 extern int GAME_WIDTH;
 extern int GAME_HEIGHT;
+extern int STAGES;
 
 //CONTROLS
 extern char UP;
@@ -13,10 +14,8 @@ extern char DOWN;
 extern char RIGHT;
 
 //SPRITES
-extern char SNAKE_CHAR;
-extern char HEAD_CHAR;
+extern char PAC_CHAR;
 extern char WALL_CHAR;
 extern char FOOD_CHAR;
-extern char POISON_CHAR;
 
 #endif
