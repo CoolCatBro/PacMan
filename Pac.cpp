@@ -9,6 +9,8 @@ bool Pac::collision()
 	char ch;
 	if (dir == 0)
 	{
+		if (x + width == GAME_WIDTH)
+			x = 0-width;
 		for (int i = 0; i < height; i++)
 		{
 			if (scene->game.moveXY(x + width, y + i) &&
@@ -43,6 +45,8 @@ bool Pac::collision()
 	}
 	if (dir == 4)
 	{
+		if (x == 0)
+			x = GAME_WIDTH;
 		for (int i = 0; i < height; i++)
 		{
 			if (scene->game.moveXY(x - 1, y + i) &&
@@ -95,6 +99,8 @@ void Pac::move()
 
 void Pac::setDirection(char key)
 {
+	if (x < 0)
+		return;
 	if (key == RIGHT)
 		dir = 0;
 	if (key == DOWN)

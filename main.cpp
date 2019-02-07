@@ -14,7 +14,7 @@ int main()
 
 	//Nodes
 	Level* level = new Level(&gsc);
-	Maze* maze = new Maze(&gsc,100,30,1);
+	Maze* maze = new Maze(&gsc,37,110,1);
 	Pac* pac = new Pac(&gsc,maze,1,1);
 	
 	level->addNode(maze);
@@ -37,7 +37,7 @@ int main()
 			pac->setDirection(_getch());
 
 		pac->move();
-
+		gsc.game.mvprintW(0, 37, "Score:" + std::to_string(pac->score));
 		gsc.game.refresh();
 	 }
 	return 0;
