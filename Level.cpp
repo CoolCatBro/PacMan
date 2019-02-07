@@ -7,7 +7,7 @@ Level::Level(Scene* scene) : Layer(scene,"level"){}
 
 void Level::load()
 {
-   for(int i=0;i<Nodes.size();i++)
+   for(unsigned int i=0;i<Nodes.size();i++)
    {
 	   Nodes[i]->load();
    }
@@ -29,7 +29,21 @@ void Maze::prevMaze() {
 		currMaze--;
 }
 
+void Maze::load() {
+	Sprite::load();
+	for(int i=0;i<height;i++)
+	{
+		for(unsigned int j=0;j<frames[currMaze][i].length();j++)
+		{
+			if (frames[currMaze][i][j] == '#')
+				frames[currMaze][i][j] = WALL_CHAR;
+		}
+	}	
+}
+
 void Maze::render(double dt) {
 	for (int i = 0; i < height; i++)
-		scene->game.mvprintW(x, i + y, frames[currMaze][i]);
+	{
+			scene->game.mvprintW(x, i + y, frames[currMaze][i]);
+	}
 }

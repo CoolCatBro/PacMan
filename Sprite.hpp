@@ -11,12 +11,9 @@ using std::ifstream;
 
 class Sprite : public Node
 {
-protected:
-
-	string** frames;
-
 public:
 
+	string** frames;
 	int nframe
 	,x, y
 	,height, width;
@@ -24,6 +21,6 @@ public:
 	Sprite(Scene*,string,int height,int width,int x,int y,int nframe=1);
 	virtual ~Sprite();
 
-	void load(); 
+	virtual void load(); 
 	virtual void render(double dt) = 0;
 };

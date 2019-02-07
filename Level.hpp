@@ -28,5 +28,6 @@ public:
 
 	void nextMaze();
 	void prevMaze();
+	void load();
 	void render(double dt);
 };

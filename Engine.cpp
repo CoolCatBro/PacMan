@@ -72,7 +72,7 @@ void Engine::printCh(char ch)
 void Engine::printW(string str)
 {
 	printCh(str[0]);
-	for (int i = 1; i < str.length(); i++)
+	for (unsigned int i = 1; i < str.length(); i++)
 	{
 		if(moveXY(cursorPosition.X+1, cursorPosition.Y))
 		printCh(str[i]);

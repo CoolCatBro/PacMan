@@ -14,7 +14,6 @@ extern char DOWN;
 extern char RIGHT;
 
 //SPRITES
-extern char PAC_CHAR;
 extern char WALL_CHAR;
 extern char FOOD_CHAR;
 

@@ -1,27 +1,108 @@
 #include "Pac.hpp"
 
-Pac::Pac(Scene* scene, int x, int y)
-	:Sprite(scene, "pac", 5, 5, x, y, 8),dir(0)
+Pac::Pac(Scene* scene, Maze* maze,int x, int y)
+	:Sprite(scene, "pac", 4, 6, x, y, 8),maze(maze),dir(0),score(0)
 {}
 
-void Pac::move(char key) 
+bool Pac::collision()
+{
+	char ch;
+	if (dir == 0)
+	{
+		for (int i = 0; i < height; i++)
+		{
+			if (scene->game.moveXY(x + width, y + i) &&
+				(ch = scene->game.readCh()))
+			{
+				if (ch == FOOD_CHAR)
+				{
+					maze->frames[maze->currMaze][y+i][x+width] = ' ';
+					score++;
+				}
+				if (ch == WALL_CHAR)
+					return true;
+			}
+		}
+	}
+	if (dir == 2)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			if (scene->game.moveXY(x + i, y + height) && 
+				(ch = scene->game.readCh()) )
+			{
+				if (ch == FOOD_CHAR)
+				{
+					maze->frames[maze->currMaze][y+height][x+i] = ' ';
+					score++;
+				}
+				if (ch == WALL_CHAR)
+					return true;
+			}
+		}
+	}
+	if (dir == 4)
+	{
+		for (int i = 0; i < height; i++)
+		{
+			if (scene->game.moveXY(x - 1, y + i) &&
+				(ch = scene->game.readCh()) )
+			{
+				if (ch == FOOD_CHAR)
+				{
+					maze->frames[maze->currMaze][y+i][x-1] = ' ';
+					score++;
+				}
+				if (ch == WALL_CHAR)
+					return true;
+			}
+		}
+	}
+	if (dir == 6)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			if (scene->game.moveXY(x + i, y - 1) &&
+				(ch = scene->game.readCh()) )
+			{
+				if (ch == FOOD_CHAR)
+				{
+					maze->frames[maze->currMaze][y-1][x+i] = ' ';
+					score++;
+				}
+				if (ch == WALL_CHAR)
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+void Pac::move() 
+{
+	if(!collision())
+	{
+	if (dir == 0)
+		x++;
+	if (dir == 2)
+		y++;
+	if (dir == 4)
+		x--;
+	if (dir == 6)
+		y--;
+	}
+}
+
+void Pac::setDirection(char key)
 {
 	if (key == RIGHT)
-	{
-		x++; dir = 0;
-	}
+		dir = 0;
 	if (key == DOWN)
-	{
-		y++; dir = 2;
-	}
+		dir = 2;
 	if (key == LEFT)
-	{
-		x--; dir = 4;
-	}
+		dir = 4;
 	if (key == UP)
-	{
-		y--; dir = 6;
-	}
+		dir = 6;
 }
 
 void Pac::render(double dt)
