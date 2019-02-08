@@ -17,5 +17,5 @@ public:
 	void move();
 	void setDirection(char key);
 	bool collision();
-	void render(double dt);
+	void render(double &dt);
 };

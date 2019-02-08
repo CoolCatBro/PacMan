@@ -22,5 +22,5 @@ public:
 	virtual ~Sprite();
 
 	virtual void load(); 
-	virtual void render(double dt) = 0;
+	virtual void render(double &dt) = 0;
 };

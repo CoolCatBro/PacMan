@@ -64,5 +64,5 @@ public:
 	virtual ~Node();
 
 	virtual void load() = 0;
-	virtual void render(double dt) = 0;
+	virtual void render(double &dt) = 0;
 };

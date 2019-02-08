@@ -1,7 +1,7 @@
 #include "Pac.hpp"
 
 Pac::Pac(Scene* scene, Maze* maze,int x, int y)
-	:Sprite(scene, "pac", 4, 6, x, y, 8),maze(maze),dir(0),score(0)
+	:Sprite(scene, "pac",4, 6, x, y, 8),maze(maze),dir(0),score(0)
 {}
 
 bool Pac::collision()
@@ -111,7 +111,7 @@ void Pac::setDirection(char key)
 		dir = 6;
 }
 
-void Pac::render(double dt)
+void Pac::render(double &dt)
 {
 	if (dt < 0.5)
 	{

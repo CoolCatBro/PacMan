@@ -41,7 +41,7 @@ void Maze::load() {
 	}	
 }
 
-void Maze::render(double dt) {
+void Maze::render(double &dt) {
 	for (int i = 0; i < height; i++)
 	{
 			scene->game.mvprintW(x, i + y, frames[currMaze][i]);
