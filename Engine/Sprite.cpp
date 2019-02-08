@@ -1,7 +1,8 @@
+#include "SceneGraph.hpp"
 #include "Sprite.hpp"
 
-Sprite::Sprite(Scene* scene, string id, int height, int width, int x, int y,int nframe)
-	: Node(scene,id),height(height),width(width),x(x),y(y),nframe(nframe)
+Sprite::Sprite(Scene* scene, string id, int width, int height, int x, int y,int nframe)
+	: Node(scene,id),width(width),height(height),x(x),y(y),nframe(nframe)
 {
 	frames = new string*[nframe];
 	for (int i = 0; i < nframe; i++)

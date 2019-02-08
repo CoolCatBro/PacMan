@@ -24,11 +24,14 @@ public:
 
 	Scene();
 	Scene(int width,int height);
+	virtual ~Scene();
 
-	void	addLayer(Layer* layer);
-	void	removeLayer(string id);
-	Layer*	getLayer(string id);
-	void	render(double);
+	void	        addLayer(Layer* layer);
+	void	        removeLayer(string id);
+	Layer*	        getLayer(string id);
+
+	virtual void    load();
+	virtual void	render(double);
 };
 
 class Layer
@@ -43,11 +46,14 @@ public:
 	string id;
 
 	Layer(Scene* scene,string id);
+	virtual ~Layer();
 
-	void   addNode(Node* node);
-	void   removeNode(string id);
-	Node*  getNode(string id);
-	void   render(double);
+	void           addNode(Node* node);
+	void           removeNode(string id);
+	Node*          getNode(string id);
+
+	virtual void   load();
+	virtual void   render(double);
 };
 
 class Node

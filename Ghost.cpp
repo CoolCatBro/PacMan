@@ -1,8 +1,8 @@
 #include "Ghost.hpp"
 #include "cstdlib"
 
-Ghost::Ghost(Scene* scene,Maze* maze,Pac* pac,int x, int y)
-	:Sprite(scene,"ghost",4,6, x, y, 1),maze(maze),pac(pac),dir(1)
+Ghost::Ghost(GameManager* gm,int x, int y)
+	:Sprite(&gm->gsc,"ghost",6,4, x, y, 1),dir(1)
 {}
 
 bool Ghost::collision()

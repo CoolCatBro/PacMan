@@ -18,7 +18,7 @@ public:
 	,x, y
 	,height, width;
 
-	Sprite(Scene*,string,int height,int width,int x,int y,int nframe=1);
+	Sprite(Scene*,string,int width,int height,int x,int y,int nframe=1);
 	virtual ~Sprite();
 
 	virtual void load(); 

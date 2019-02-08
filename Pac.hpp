@@ -1,18 +1,19 @@
 #pragma once
 
-#include "Sprite.hpp"
-#include "Globals.hpp"
+#include "Engine/Sprite.hpp"
+#include "Engine/Globals.hpp"
+#include "GameManager.hpp"
 #include "Level.hpp"
 
 class Pac : public Sprite
 {
-	Maze* maze;
+	GameManager* gm;
 
 public:
 	
-	int dir, score;
+	int dir;
 
-	Pac(Scene* scene,Maze* maze,int x, int y);
+	Pac(GameManager* gm,int x, int y);
 
 	void move();
 	void setDirection(char key);

@@ -1,90 +1,12 @@
 #include "Pac.hpp"
 
-Pac::Pac(Scene* scene, Maze* maze,int x, int y)
-	:Sprite(scene, "pac",4, 6, x, y, 8),maze(maze),dir(0),score(0)
+Pac::Pac(GameManager *gm,int x, int y)
+	:Sprite(&gm->gsc, "pac", 6, 4, x, y, 8),gm(gm),dir(0)
 {}
-
-bool Pac::collision()
-{
-	char ch;
-	if (dir == 0)
-	{
-		if (x + width == GAME_WIDTH)
-			x = 0-width;
-		for (int i = 0; i < height; i++)
-		{
-			if (scene->game.moveXY(x + width, y + i) &&
-				(ch = scene->game.readCh()))
-			{
-				if (ch == FOOD_CHAR)
-				{
-					maze->frames[maze->currMaze][y+i][x+width] = ' ';
-					score++;
-				}
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	if (dir == 2)
-	{
-		for (int i = 0; i < width; i++)
-		{
-			if (scene->game.moveXY(x + i, y + height) && 
-				(ch = scene->game.readCh()) )
-			{
-				if (ch == FOOD_CHAR)
-				{
-					maze->frames[maze->currMaze][y+height][x+i] = ' ';
-					score++;
-				}
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	if (dir == 4)
-	{
-		if (x == 0)
-			x = GAME_WIDTH;
-		for (int i = 0; i < height; i++)
-		{
-			if (scene->game.moveXY(x - 1, y + i) &&
-				(ch = scene->game.readCh()) )
-			{
-				if (ch == FOOD_CHAR)
-				{
-					maze->frames[maze->currMaze][y+i][x-1] = ' ';
-					score++;
-				}
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	if (dir == 6)
-	{
-		for (int i = 0; i < width; i++)
-		{
-			if (scene->game.moveXY(x + i, y - 1) &&
-				(ch = scene->game.readCh()) )
-			{
-				if (ch == FOOD_CHAR)
-				{
-					maze->frames[maze->currMaze][y-1][x+i] = ' ';
-					score++;
-				}
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	return false;
-}
 
 void Pac::move() 
 {
-	if(!collision())
+	if(!gm->collision(this,WALL_CHAR))
 	{
 	if (dir == 0)
 		x++;

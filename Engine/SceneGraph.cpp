@@ -6,6 +6,10 @@ Scene::Scene(){}
 
 Scene::Scene(int width,int height):game(width,height){}
 
+Scene::~Scene()
+{
+}
+
 void Scene::addLayer(Layer* layer)
 {
 	Layers.push_back(layer);
@@ -29,6 +33,12 @@ Layer* Scene::getLayer(string id)
 	return nullptr;
 }
 
+void Scene::load()
+{
+	for (auto i = Layers.begin(); i != Layers.end(); i++)
+		(*i)->load();
+}
+
 void Scene::render(double dt)
 {
 	for (auto i = Layers.begin(); i != Layers.end(); i++)
@@ -41,6 +51,10 @@ Layer::Layer(Scene* scene,string id)
 {
 	this->scene = scene;
 	this->id = id;
+}
+
+Layer::~Layer()
+{
 }
 
 void Layer::addNode(Node* node)
@@ -66,6 +80,12 @@ Node* Layer::getNode(string id)
 		if ((*i)->id == id)
 			return *i;
 	return nullptr;
+}
+
+void Layer::load()
+{
+	for (auto i = Nodes.begin(); i != Nodes.end(); i++)
+		(*i)->load();
 }
 
 void Layer::render(double dt)
