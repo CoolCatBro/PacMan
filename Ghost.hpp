@@ -3,7 +3,6 @@
 #include "Engine/Sprite.hpp"
 #include "Engine/Globals.hpp"
 #include "Pac.hpp"
-#include "Level.hpp"
 
 class Ghost : public Sprite
 {

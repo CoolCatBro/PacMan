@@ -1,7 +1,7 @@
-#include "Level.hpp"
+#include "Engine/Level.hpp"
+#include "Engine/GameManager.hpp"
 #include "Pac.hpp"
 #include "Maze.hpp"
-#include "GameManager.hpp"
 
 #include<cstdio>
 #include<conio.h>
@@ -13,16 +13,19 @@ int main()
 	GameManager gm(GAME_WIDTH,GAME_HEIGHT+1);
 
 	//Nodes
-	Level* level = new Level(&gm.gsc);
-	Maze*  maze  = new Maze(&gm.gsc,37,110,1);
+	Level* level = new Level(&gm);
+	Maze*  maze  = new Maze(&gm,37,110,1);
 	Pac*   pac   = new Pac(&gm,1,1);
 
 	//Add Nodes to the level
 	level->addNode(maze);
 	level->addNode(pac);
 
-	//Load the level;
-	level->load();
+	//Add Layers to Scene
+	gm.addLayer(level);
+	
+	//Load Scene;
+	gm.load();
 
 	//Delta time keep record for time span of loop
 	clock_t btime = clock();
@@ -34,15 +37,14 @@ int main()
 		if (dt > 1.0)
 			btime = clock();
 
-		level->render(dt);
+		gm.render(dt);
 
 		if (_kbhit())
 			pac->setDirection(_getch());
 
-		//Print Score
-		//gsc.game.mvprintW(0, 37, "Score:" + std::to_string(pac->score));
+		pac->move();
 
-		gm.gsc.game.refresh();
+		gm.game.refresh();
 	 }
 	return 0;
 }

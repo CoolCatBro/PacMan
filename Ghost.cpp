@@ -2,7 +2,7 @@
 #include "cstdlib"
 
 Ghost::Ghost(GameManager* gm,int x, int y)
-	:Sprite(&gm->gsc,"ghost",6,4, x, y, 1),dir(1)
+	:Sprite(gm,"ghost",6,4, x, y, 1),dir(1)
 {}
 
 bool Ghost::collision()

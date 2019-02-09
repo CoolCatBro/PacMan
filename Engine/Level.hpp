@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Engine/SceneGraph.hpp"
-#include "Engine/Sprite.hpp"
-#include "Engine/Globals.hpp"
+#include "SceneGraph.hpp"
+#include "Sprite.hpp"
+#include "Globals.hpp"
 
 
 class Level : public Layer
