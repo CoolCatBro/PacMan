@@ -2,16 +2,21 @@
 
 #include "Engine/Sprite.hpp"
 #include "Engine/Globals.hpp"
+#include "Maze.hpp"
 #include "Pac.hpp"
 
 class Ghost : public Sprite
 {
 	GameManager* gm;
-	char dir;
+	Maze* maze;
+	Pac* pac;
+
+	int dir;
 public:
 
 	Ghost(GameManager *gm,int x,int y);
-	bool collision();
 	void move();
+	void scatter();
+	void load();
 	void render(double &dt);
 };

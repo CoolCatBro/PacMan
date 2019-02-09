@@ -2,70 +2,31 @@
 #include "cstdlib"
 
 Ghost::Ghost(GameManager* gm,int x, int y)
-	:Sprite(gm,"ghost",6,4, x, y, 1),dir(1)
+	:Sprite(gm,"ghost",6,4, x, y, 1),gm(gm),dir(1)
 {}
-
-bool Ghost::collision()
-{
-	char ch;
-	if (dir == 1)
-	{
-		if (x + width == GAME_WIDTH)
-			x = 0-width;
-		for (int i = 0; i < height; i++)
-		{
-			if (scene->game.moveXY(x + width, y + i) &&
-				(ch = scene->game.readCh()))
-			{
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	if (dir == 2)
-	{
-		for (int i = 0; i < width; i++)
-		{
-			if (scene->game.moveXY(x + i, y + height) && 
-				(ch = scene->game.readCh()) )
-			{
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	if (dir == 3)
-	{
-		if (x == 0)
-			x = GAME_WIDTH;
-		for (int i = 0; i < height; i++)
-		{
-			if (scene->game.moveXY(x - 1, y + i) &&
-				(ch = scene->game.readCh()))
-			{
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	if (dir == 4)
-	{
-		for (int i = 0; i < width; i++)
-		{
-			if (scene->game.moveXY(x + i, y - 1) &&
-				(ch = scene->game.readCh()))
-			{
-				if (ch == WALL_CHAR)
-					return true;
-			}
-		}
-	}
-	return false;
-}
 
 void Ghost::move()
 {
-	int k=1;
+	if (x + width == GAME_WIDTH && dir == 1)
+		x = -width;
+	if (x == 0 && dir == 3)
+		x = GAME_WIDTH;
+
+	scatter();
+
+	if (dir == 1)
+		x++;
+	if (dir == 2)
+		y++;
+	if (dir == 3)
+		x--;
+	if (dir == 4)
+		y--;
+}
+
+void Ghost::scatter()
+{
+	int k = 1;
 	int temp = 0;
 	while (1)
 	{
@@ -79,19 +40,24 @@ void Ghost::move()
 			dir = k;
 		else if (dir == 4 && k != 2)
 			dir = k;
-		if (!collision())
+		if (!gm->collision(this, WALL_CHAR, [](int, int) {}, dir))
 			break;
 		else
+		{
+			if (x + width >= GAME_WIDTH)
+			{dir = 3; break;}
+			if (x <= 0)
+			{dir = 1; break;}
 			dir = temp;
+		}
 	}
-	if (dir == 1)
-		x++;
-	if (dir == 2)
-		y++;
-	if (dir == 3)
-		x--;
-	if (dir == 4)
-		y--;
+}
+
+void Ghost::load()
+{
+	Sprite::load();
+	maze = (Maze*)gm->getLayer("level")->getNode("maze");
+	pac =  (Pac*)gm->getLayer("level")->getNode("pac");
 }
 
 void Ghost::render(double &dt)
