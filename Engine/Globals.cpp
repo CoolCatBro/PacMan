@@ -14,4 +14,4 @@ char RIGHT = 'd';
 //SPRITES
 char WALL_CHAR = 219;
 char FOOD_CHAR = 'o';
-char POWER_CHAR = '*';
+char POWER_CHAR = 'X';

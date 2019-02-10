@@ -1,7 +1,7 @@
 #include "GameManager.hpp"
 
 GameManager::GameManager(int width, int height)
-	        :Scene(width,height),score(0),tmp(0.0)
+	        :Scene(width,height),score(0),gtime(0.0)
 {
 	srand(time(nullptr));
 }
@@ -64,9 +64,14 @@ bool GameManager::collision(Sprite *a, Sprite *b,function<void(int,int)> event)
 	return false;
 }
 
+float GameManager::distance(int x1, int y1, int x2, int y2)
+{
+	return sqrt(pow(x2 - x1, 2) +  pow(y2 - y1, 2) * 1.0);
+}
+
 void GameManager::render(double dt)
 {
 	Scene::render(dt);
 	game.mvprintW(1,GAME_HEIGHT, "Score:" + std::to_string(score));
-	tmp += dt;
+	gtime += dt;
 }

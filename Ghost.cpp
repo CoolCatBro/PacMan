@@ -2,8 +2,9 @@
 #include "cstdlib"
 
 Ghost::Ghost(GameManager* gm,int x, int y)
-	:Sprite(gm,"ghost",6,4, x, y, 1),gm(gm),dir(1)
+	:Sprite(gm,"ghost",6,4, x, y, 2),gm(gm),dir(1),ghtime(0.0)
 {
+	rx = x; ry = y;
 }
 
 void Ghost::move()
@@ -13,8 +14,26 @@ void Ghost::move()
 	if (x == 0 && dir == 3)
 		x = GAME_WIDTH;
 
+
 	if (!gm->collision(this, pac, [](int, int) {}))
-		chase();
+	{
+		if (pac->power)
+		{
+			if (ghtime < 25.0)
+				frighten();
+			else if (ghtime > 25.0)
+				scatter();
+			else if (ghtime > 30.0)
+				ghtime = 0.0;
+		}
+
+		else if (ghtime > 50.0)
+			scatter();
+		else if (ghtime < 50.0 && (x > 0 && x < GAME_WIDTH))
+			chase();
+		else if(ghtime > 60.0)
+			ghtime = 0.0;
+	}
 	else
 	{
 		if (!pac->power)
@@ -64,8 +83,9 @@ void Ghost::scatter()
 
 void Ghost::chase()
 {
-	if (path.size() < 10)
+	if (path.size() < 30)
 	{
+		path.clear();
 		findPath();
 		dir = 0;
 	}
@@ -76,14 +96,41 @@ void Ghost::chase()
 	}
 }
 
+void Ghost::frighten()
+{
+	float mx, a, b, c, d;
+	mx = a = b = c = d = 0.0f;
+
+	if(!gm->collision(this,  WALL_CHAR, [](int, int){},  1))
+	a = gm->distance(pac->x, pac->y, x + 1, y);
+	if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 2))
+	b = gm->distance(pac->x, pac->y, x, y + 1);
+	if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 3))
+	c = gm->distance(pac->x, pac->y, x - 1, y);
+	if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 4))
+	d = gm->distance(pac->x, pac->y, x, y - 1);
+
+	mx = max(a, max(b, max(c, d)));
+	if (mx == a)
+		dir = 1;
+	if (mx == b)
+		dir = 2;
+	if (mx == c)
+		dir = 3;
+	if (mx == d)
+		dir = 4;
+}
+
 void Ghost::eat() 
 {
 	dir = 0;
+	system("pause");
 }
 
 void Ghost::reset()
 {
-	x = 65; y = 7;
+	x = rx; y = ry;
+	gm->score += 20;
 	path.clear();
 }
 
@@ -158,5 +205,11 @@ void Ghost::load()
 void Ghost::render(double &dt)
 {
 	for (int i = 0; i < height; i++)
+	{
+		if(!pac->power)
 		scene->game.mvprintW(x, y + i, frames[0][i]);
+		else
+		scene->game.mvprintW(x, y + i, frames[1][i]);
+	}
+	ghtime += dt;
 }

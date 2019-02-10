@@ -10,6 +10,8 @@ class Pac : public Sprite
 	GameManager* gm;
 	Maze* maze;
 
+	double ptime;
+
 public:
 	
 	bool power;

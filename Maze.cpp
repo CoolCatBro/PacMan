@@ -1,7 +1,7 @@
 #include "Maze.hpp"
 
 Maze::Maze(Scene* scene, int width, int height, int nmazes)
-	:Sprite(scene, "maze", width, height, 0, 0, nmazes), currMaze(0) {
+	:Sprite(scene, "maze", width, height, 0, 0, nmazes), currMaze(0),mztime(0.0) {
 }
 
 void Maze::nextMaze() {
@@ -31,4 +31,9 @@ void Maze::render(double &dt) {
 	{
 		scene->game.mvprintW(x, i + y, frames[currMaze][i]);
 	}
+	if (mztime > 30.0)
+	{
+		scene->game.mvprintW(55, 11, "                ");
+	}
+	mztime += dt;
 }

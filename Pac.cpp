@@ -1,7 +1,7 @@
 #include "Pac.hpp"
 
 Pac::Pac(GameManager *gm,int x, int y)
-	:Sprite(gm, "pac", 6, 4, x, y, 8),gm(gm),dir(0),power(false)
+	:Sprite(gm, "pac", 6, 4, x, y, 8),gm(gm),dir(0),power(false),ptime(0.0)
 {}
 
 void Pac::move() 
@@ -10,6 +10,8 @@ void Pac::move()
 		x = -width;
 	if (x == 0 && dir == 4)
 		x = GAME_WIDTH;
+	if (ptime > 50.0)
+		power = false;
 
 	if (dir == 0)
 	{
@@ -52,6 +54,7 @@ void Pac::eatGhost(int x, int y)
 	power = true;
 	maze->frames[maze->currMaze][y][x] = ' ';
 	gm->score+=10;
+	ptime = 0.0;
 }
 
 void Pac::setDirection(char key)
@@ -86,4 +89,6 @@ void Pac::render(double &dt)
 		for (int i = 0; i < height; i++)
 			scene->game.mvprintW(x, y + i, frames[dir+1][i]);
 	}
+	if (power)
+		ptime += dt;
 }

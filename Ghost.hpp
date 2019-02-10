@@ -6,6 +6,8 @@
 #include "Maze.hpp"
 #include "Pac.hpp"
 
+#include <algorithm>
+using std::max;
 
 class Ghost : public Sprite
 {
@@ -15,12 +17,16 @@ class Ghost : public Sprite
 
 	int dir;
 	deque<int> path;
+	double ghtime;
+	
+	int rx, ry;
 public:
 
 	Ghost(GameManager *gm,int x,int y);
 	void move();
 	void scatter();
 	void chase();
+	void frighten();
 	void eat();
 	void reset();
 	void findPath();

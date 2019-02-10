@@ -10,6 +10,7 @@ class Maze : public Sprite
 {
 public:
 
+	double mztime;
 	int currMaze;
 
 	pair<int, int> pacpos;

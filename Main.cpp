@@ -13,12 +13,16 @@ int main()
 	Level* level = new Level(&gm);
 	Maze*  maze  = new Maze(&gm,GAME_WIDTH,GAME_HEIGHT,1);
 	Pac*   pac   = new Pac(&gm,1,1);
-	Ghost* ghost = new Ghost(&gm, 65, 7);
+	Ghost* ghost = new Ghost(&gm, 55, 13);
+	Ghost* ghost2 = new Ghost(&gm, 61, 13);
+	Ghost* ghost3 = new Ghost(&gm, 64, 13);
 
 	//Add Nodes to the level
 	level->addNode(maze);
 	level->addNode(pac);
 	level->addNode(ghost);
+	level->addNode(ghost2);
+	level->addNode(ghost3);
 
 	//Add Layers to Scene
 	gm.addLayer(level);
@@ -42,7 +46,14 @@ int main()
 			pac->setDirection(_getch());
 
 		pac->move();
-		ghost->move();
+
+		if (gm.gtime > 35.0)
+		{
+			ghost->move();
+			ghost2->move();
+			ghost3->move();
+		}
+
 		gm.game.refresh();
 	 }
 	return 0;
