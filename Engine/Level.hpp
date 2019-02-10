@@ -12,4 +12,5 @@ class Level : public Layer
 public:
 
 	Level(Scene*);
+	void render(double dt);
 };

@@ -1,8 +1,10 @@
 #include "GameManager.hpp"
 
 GameManager::GameManager(int width, int height)
-	        :Scene(width,height),score(0)
-{}
+	        :Scene(width,height),score(0),tmp(0.0)
+{
+	srand(time(nullptr));
+}
 
 bool GameManager::collision(Sprite* sprt, char ch,function<void(int,int)> event,int side)
 {
@@ -51,7 +53,20 @@ bool GameManager::collision(Sprite* sprt, char ch,function<void(int,int)> event,
 	return collide;
 }
 
-bool GameManager::collision(Sprite *, Sprite *,function<void(int,int)> event)
+bool GameManager::collision(Sprite *a, Sprite *b,function<void(int,int)> event)
 {
+	if ( (( a->x <= b->x) && (a->x + a->width >= b->x)) 
+	   && ((a->y <= b->y) && (a->y + a->height >= b->y)))
+	{
+		event(a->x,a->y);
+		return true;
+	}
 	return false;
+}
+
+void GameManager::render(double dt)
+{
+	Scene::render(dt);
+	game.mvprintW(1,GAME_HEIGHT, "Score:" + std::to_string(score));
+	tmp += dt;
 }

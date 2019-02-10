@@ -16,5 +16,6 @@ extern char RIGHT;
 //SPRITES
 extern char WALL_CHAR;
 extern char FOOD_CHAR;
+extern char POWER_CHAR;
 
 #endif

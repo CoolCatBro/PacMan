@@ -1,7 +1,7 @@
 #include "Pac.hpp"
 
 Pac::Pac(GameManager *gm,int x, int y)
-	:Sprite(gm, "pac", 6, 4, x, y, 8),gm(gm),dir(0)
+	:Sprite(gm, "pac", 6, 4, x, y, 8),gm(gm),dir(0),power(false)
 {}
 
 void Pac::move() 
@@ -14,24 +14,28 @@ void Pac::move()
 	if (dir == 0)
 	{
 		gm->collision(this, FOOD_CHAR, [this](int x, int y) {this->eat(x, y);},1);
+		gm->collision(this, POWER_CHAR, [this](int x, int y) {this->eatGhost(x, y); }, 1);
 		if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 1))
 			x++;
 	}
 	if (dir == 2)
 	{
 		gm->collision(this, FOOD_CHAR, [this](int x, int y) {this->eat(x, y);}, 2);
+		gm->collision(this, POWER_CHAR, [this](int x, int y) {this->eatGhost(x, y); }, 2);
 		if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 2))
 			y++;
 	}
 	if (dir == 4)
 	{
 		gm->collision(this, FOOD_CHAR, [this](int x, int y) {this->eat(x, y); }, 3);
+		gm->collision(this, POWER_CHAR, [this](int x, int y) {this->eatGhost(x, y); }, 3);
 		if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 3))
 			x--;
 	}
 	if (dir == 6)
 	{
 		gm->collision(this, FOOD_CHAR, [this](int x, int y) {this->eat(x, y); }, 4);
+		gm->collision(this, POWER_CHAR, [this](int x, int y) {this->eatGhost(x, y); }, 4);
 		if (!gm->collision(this, WALL_CHAR, [](int, int) {}, 4))
 			y--;
 	}
@@ -41,6 +45,13 @@ void Pac::eat(int x,int y)
 {
 	maze->frames[maze->currMaze][y][x] = ' ';
 	gm->score++;
+}
+
+void Pac::eatGhost(int x, int y)
+{
+	power = true;
+	maze->frames[maze->currMaze][y][x] = ' ';
+	gm->score+=10;
 }
 
 void Pac::setDirection(char key)

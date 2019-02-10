@@ -4,10 +4,6 @@
 #include "Maze.hpp"
 #include "Ghost.hpp"
 
-#include<cstdio>
-#include<conio.h>
-#include<ctime>
-
 int main()
 {
 	//Scenes
@@ -29,7 +25,7 @@ int main()
 	
 	//Load Scene;
 	gm.load();
-	srand(time(nullptr));
+	
 	//Delta time keep record for time span of loop
 	clock_t btime = clock();
 	double dt;
@@ -47,7 +43,6 @@ int main()
 
 		pac->move();
 		ghost->move();
-
 		gm.game.refresh();
 	 }
 	return 0;
